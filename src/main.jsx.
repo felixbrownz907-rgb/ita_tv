@@ -1,0 +1,63 @@
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import YouTube from 'react-youtube';
+import { db } from './firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+
+const AcademyApp = () => {
+  const [broadcast, setBroadcast] = useState({ title: "ITA ACADEMY TV | LIVE", videoId: "" });
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "station", "live"), (doc) => {
+      if (doc.exists()) setBroadcast(doc.data());
+    });
+    return () => unsub();
+  }, []);
+
+  const opts = {
+    height: "250", // Standard mobile height
+    width: "100%",
+    playerVars: {
+      autoplay: 1,
+      controls: 1,
+      muted: 1,
+      playsinline: 1,
+    },
+  };
+
+  return (
+    <div style={{ background: '#f4f4f4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* HEADER */}
+      <div style={{ background: '#000', color: '#fff', padding: '15px', textAlign: 'center' }}>
+        <h2 style={{ margin: 0, fontSize: '18px' }}>{broadcast.title}</h2>
+      </div>
+
+      {/* VIDEO AREA - Normal Size */}
+      <div style={{ width: '100%', margin: '10px 0', background: '#000' }}>
+        {broadcast.videoId && (
+          <YouTube videoId={broadcast.videoId} opts={opts} />
+        )}
+      </div>
+
+      {/* ADMIN INFO */}
+      <div style={{ padding: '20px', textAlign: 'center', color: '#333' }}>
+        <h3 style={{ margin: '5px 0' }}>Felix Chisenga</h3>
+        <p style={{ fontSize: '14px', color: '#666' }}>Technical Administrator</p>
+        
+        <button style={{ 
+          marginTop: '20px', 
+          background: '#25D366', 
+          color: 'white', 
+          border: 'none', 
+          padding: '12px 25px', 
+          borderRadius: '5px',
+          fontWeight: 'bold' 
+        }}>
+          WhatsApp Us
+        </button>
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><AcademyApp /></React.StrictMode>);
