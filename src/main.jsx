@@ -21,6 +21,20 @@ const AcademyApp = () => {
           <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Independence through Practical Technical Skills.</p>
         </div>
 
+        {/* Video Player Section */}
+        <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px', fontSize: '1.1rem' }}>Technical Broadcasts</h3>
+        <div style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#000', borderRadius: '12px', overflow: 'hidden', marginBottom: '30px', border: '1px solid #334155' }}>
+          <iframe 
+            width="100%" 
+            height="100%" 
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+            title="ITA-TV Broadcast" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen>
+          </iframe>
+        </div>
+
         <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px', fontSize: '1.1rem' }}>Bursary & Intake Hub</h3>
         <div style={{ backgroundColor: '#1e293b', padding: '15px', borderRadius: '8px', border: '1px solid #334155', marginBottom: '20px' }}>
           <h4 style={{ margin: '0 0 5px 0', color: '#38bdf8' }}>ITA Main Intake - Open</h4>
@@ -29,11 +43,6 @@ const AcademyApp = () => {
 
         <div style={{ backgroundColor: '#0f172a', padding: '15px', borderRadius: '8px', border: '1px solid #38bdf8', marginBottom: '25px', textAlign: 'center' }}>
           <p style={{ margin: '0', fontSize: '0.9rem' }}>📞 0779417675 | 0766149405</p>
-        </div>
-
-        <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px', fontSize: '1.1rem' }}>Technical Broadcasts</h3>
-        <div style={{ height: '100px', backgroundColor: '#1e293b', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed #334155', marginBottom: '30px' }}>
-           <p style={{ color: '#64748b', fontSize: '0.85rem' }}>Practical IT Tutorials Coming Soon</p>
         </div>
 
         <button 
