@@ -35,17 +35,21 @@ const AcademyApp = () => {
     width: '100%',
     playerVars: {
       autoplay: 1,
-      controls: 0,          // Hides the play bar
-      modestbranding: 1,    // Hides the YouTube logo
-      rel: 0,               // No suggested videos
-      showinfo: 0,
-      iv_load_policy: 3,    // No pop-ups
+     controls 0,
+      muted: 1,
+      modestbranding: 1,
+      rel: 0,
+      iv_load_policy: 3,
+      loop: 1,
+          // Hides the play baro
+   
       disablekb: 1          // No keyboard shortcuts
     },
   };
 
    return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%
+', height: '100%', background: '#000', overflow: 'hidden' }}
       {/* CLICK SHIELD: This stops people from clicking the video to go to YouTube */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }}></div>
       
