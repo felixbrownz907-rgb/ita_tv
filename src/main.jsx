@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { initializeApp } from "firebase/app";
@@ -28,36 +29,42 @@ const AcademyApp = () => {
     });
     return () => unsub();
   }, []);
+  const opts = {
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      autoplay: 1,
+      controls: 0,          // Hides the play bar
+      modestbranding: 1,    // Hides the YouTube logo
+      rel: 0,               // No suggested videos
+      showinfo: 0,
+      iv_load_policy: 3,    // No pop-ups
+      disablekb: 1          // No keyboard shortcuts
+    },
+  };
 
-  return (
-    <div style={{ backgroundColor: '#0f172a', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-      <nav style={{ padding: '20px', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ margin: 0, color: '#38bdf8' }}>ITA-TV <span style={{ color: '#ef4444', fontSize: '0.7rem' }}>● LIVE</span></h2>
-      </nav>
+   return (
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
+      {/* CLICK SHIELD: This stops people from clicking the video to go to YouTube */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }}></div>
+      
+      {/* STATION HEADER */}
+      <div style={{ position: 'absolute', top: 0, width: '100%', padding: '12px', background: 'rgba(0,0,0,0.85)', color: 'white', zIndex: 20, textAlign: 'center', borderBottom: '2px solid red' }}>
+        <p style={{ margin: 0, fontWeight: 'bold', fontSize: '1rem' }}>ITA ACADEMY TV | LIVE</p>
+      </div>
 
-      <main style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '30px' }}>
-          <h3 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: '#38bdf8' }}>{broadcast.title}</h3>
-          <div style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#000', borderRadius: '12px', overflow: 'hidden', border: '1px solid #334155' }}>
-            <iframe 
-              width="100%" height="100%" 
-              src={"https://www.youtube.com/embed/" + broadcast.videoId + "?autoplay=1&mute=0"} 
-              title="ITA-TV Broadcast" frameBorder="0" allowFullScreen>
-            </iframe>
-          </div>
-        </div>
-
-        <section style={{ marginBottom: '30px' }}>
-          <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px' }}>About ITA-TV</h3>
-          <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Practical Technical Skills. Broadcast 24/7.</p>
-        </section>
-
-        <button onClick={() => window.location.href="https://wa.me/260779417675"} style={{ width: '100%', backgroundColor: '#22c55e', color: 'white', border: 'none', padding: '18px', borderRadius: '8px', fontWeight: 'bold' }}>
-          Enquire via WhatsApp
-        </button>
-      </main>
+      <div style={{ width: '100%', height: '100%' }}>
+        {broadcast.videoId && (
+          <YouTube videoId={broadcast.videoId} opts={opts} style={{ height: '100%', width: '100%' }} />
+        )}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><AcademyApp /></React.StrictMode>)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <AcademyApp />
+  </React.StrictMode>
+);
+
