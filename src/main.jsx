@@ -53,7 +53,7 @@ playsinline: 1,
 ', height: '100%', background: '#000', overflow: 'hidden' }}
       {/* CLICK SHIELD: This stops people from clicking the video to go to YouTube */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }}></div>
-      
+  0, width: '100%', height: '100%', zIndex: 10, pointerEvents: "none", zIndex: 10 }}></div>      
       {/* STATION HEADER */}
       <div style={{ position: 'absolute', top: 0, width: '100%', padding: '12px', background: 'rgba(0,0,0,0.85)', color: 'white', zIndex: 20, textAlign: 'center', borderBottom: '2px solid red' }}>
         <p style={{ margin: 0, fontWeight: 'bold', fontSize: '1rem' }}>ITA ACADEMY TV | LIVE</p>
