@@ -41,6 +41,7 @@ const AcademyApp = () => {
       rel: 0,
       iv_load_policy: 3,
       loop: 1,
+playsinline: 1,
           // Hides the play baro
    
       disablekb: 1          // No keyboard shortcuts
