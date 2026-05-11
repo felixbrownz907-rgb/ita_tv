@@ -1,0 +1,21 @@
+{
+  "name": "ita-tv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+"scripts":{
+ "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "firebase": "^12.13.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-player": "^3.4.0",
+    "vite": "^8.0.11"
+  }
+}
