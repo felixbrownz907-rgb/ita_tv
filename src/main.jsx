@@ -26,30 +26,38 @@ const AcademyApp = () => {
       modestbranding: 1,
       rel: 0,
       playsinline: 1,
-      showinfo: 0,
+      iv_load_policy: 3,
     },
+  };
+
+  // This function FORCES the video to play the millisecond it loads
+  const onPlayerReady = (event) => {
+    event.target.playVideo();
   };
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
-      {/* THE SHIELD: This hides the YouTube sign and play button */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10, pointerEvents: 'none' }}></div>
       
-      {/* STATION HEADER */}
-      <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 20, background: 'rgba(0,0,0,0.6)', color: 'white', textAlign: 'center', padding: '10px' }}>
-        <p style={{ margin: 0, fontWeight: 'bold' }}>{broadcast.title}</p>
-      </div>
-
+      {/* 1. THE PLAYER (Bottom Layer) */}
       <div style={{ width: "100%", height: "100%" }}>
         {broadcast.videoId && (
           <YouTube 
             videoId={broadcast.videoId} 
             opts={opts} 
-            style={{ width: '100%', height: '100%' }}
-            onReady={(e) => e.target.playVideo()} 
+            onReady={onPlayerReady}
+            style={{ width: '100%', height: '100%' }} 
           />
         )}
       </div>
+
+      {/* 2. THE SHIELD (Middle Layer - Hides YouTube Sign) */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10, pointerEvents: 'none' }}></div>
+      
+      {/* 3. STATION HEADER (Top Layer) */}
+      <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 20, background: 'rgba(0,0,0,0.7)', color: 'white', textAlign: 'center', padding: '8px' }}>
+        <p style={{ margin: 0, fontWeight: 'bold', fontSize: '14px' }}>{broadcast.title}</p>
+      </div>
+
     </div>
   );
 };
