@@ -5,18 +5,20 @@ import { db } from './firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 const AcademyApp = () => {
-  const [broadcast, setBroadcast] = useState({ title: "ITA ACADEMY TV | LIVE", videoId: "" });
+  const [broadcast, setBroadcast] = useState({ title: "ITA ACADEMY TV | LIVE", videoId: "", admin: "Felix Chisenga" });
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "station", "live"), (doc) => {
-      if (doc.exists()) setBroadcast(doc.data());
+      if (doc.exists()) {
+        setBroadcast(doc.data());
+      }
     });
     return () => unsub();
   }, []);
 
   const opts = {
-    height: '100%',
-    width: '100%',
+    height: "390",
+    width: "100%",
     playerVars: {
       autoplay: 1,
       controls: 0,
@@ -24,31 +26,42 @@ const AcademyApp = () => {
       modestbranding: 1,
       rel: 0,
       playsinline: 1,
-      iv_load_policy: 3,
     },
   };
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
-      
-      {/* THE CONTAINER: This zooms the video to hide the logos */}
-      <div style={{ position: 'absolute', top: 0, left: '-100%', width: '300%', height: '100%', pointerEvents: 'none' }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', background: '#f0f0f0', minHeight: '100vh', paddingBottom: '50px' }}>
+      {/* HEADER */}
+      <div style={{ background: '#000', color: '#fff', padding: '15px', textAlign: 'center' }}>
+        <h2 style={{ margin: 0, fontSize: '18px' }}>{broadcast.title}</h2>
+      </div>
+
+      {/* VIDEO AREA (Normal Size) */}
+      <div style={{ width: '100%', maxWidth: '800px', margin: '20px auto', background: '#000' }}>
         {broadcast.videoId && (
-          <YouTube 
-            videoId={broadcast.videoId} 
-            opts={opts} 
-            onReady={(e) => e.target.playVideo()}
-            style={{ width: '100%', height: '100%' }} 
-          />
+          <YouTube videoId={broadcast.videoId} opts={opts} onReady={(e) => e.target.playVideo()} />
         )}
       </div>
 
-      {/* HEADER: Always on top */}
-      <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 20, background: 'rgba(0,0,0,0.8)', color: 'white', textAlign: 'center', padding: '12px' }}>
-        <p style={{ margin: 0, fontWeight: 'bold' }}>{broadcast.title}</p>
+      {/* ADMIN & INFO SECTION */}
+      <div style={{ padding: '20px', textAlign: 'center', color: '#333' }}>
+        <p><strong>Administrator:</strong> {broadcast.admin || "Felix Chisenga"}</p>
+        <p style={{ fontSize: '14px', color: '#666' }}>Broadcasting Live from Lusaka, Zambia</p>
+      </div>
+
+      {/* WHATSAPP / CONTACT AREA */}
+      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 100 }}>
+         {/* This is where your WhatsApp button lives */}
+         <div style={{ background: '#25D366', color: 'white', padding: '10px 20px', borderRadius: '50px', fontWeight: 'bold', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
+           Chat on WhatsApp
+         </div>
       </div>
     </div>
   );
 };
 
-ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><AcademyApp /></React.StrictMode>);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <AcademyApp />
+  </React.StrictMode>
+);
