@@ -1,54 +1,60 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 
 const AcademyApp = () => {
-  const contactWhatsApp = () => {
-    const myNumber = "260779417675"; 
-    const message = encodeURIComponent("Hello ITA-TV, I am interested in joining the IT International Academy.");
-    window.location.href = "https://wa.me/" + myNumber + "?text=" + message;
-  };
+  const [currentProgram, setCurrentProgram] = useState({ title: "Loading...", id: "" });
+
+  useEffect(() => {
+    const checkSchedule = () => {
+      const hour = new Date().getHours();
+      if (hour >= 8 && hour < 12) setCurrentProgram({ title: "Morning Technical Lab", id: "3Gxnd_OpxH8" });
+      else if (hour >= 12 && hour < 14) setCurrentProgram({ title: "Mid-Day Tech News", id: "7W-p0E_Lp3Q" });
+      else if (hour >= 14 && hour < 18) setCurrentProgram({ title: "Afternoon Practical Session", id: "dQw4w9WgXcQ" });
+      else setCurrentProgram({ title: "ITA-TV Night Broadcast", id: "5qap5aO4i9A" });
+    };
+    checkSchedule();
+    const interval = setInterval(checkSchedule, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div style={{ backgroundColor: '#0f172a', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-      <nav style={{ padding: '20px', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ margin: 0, color: '#38bdf8' }}>ITA-TV</h2>
-        <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>IT International Academy</div>
+      <nav style={{ padding: '20px', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, backgroundColor: '#0f172a', zIndex: 100 }}>
+        <h2 style={{ margin: 0, color: '#38bdf8' }}>ITA-TV <span style={{ color: '#ef4444', fontSize: '0.7rem' }}>● LIVE</span></h2>
       </nav>
 
       <main style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-        <div style={{ backgroundColor: '#1e293b', borderRadius: '12px', padding: '30px', textAlign: 'center', marginBottom: '20px' }}>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>IT International Academy</h1>
-          <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Independence through Practical Technical Skills.</p>
+        {/* TV SECTION */}
+        <div style={{ marginBottom: '30px' }}>
+          <h3 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: '#38bdf8' }}>Now Playing: {currentProgram.title}</h3>
+          <div style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#000', borderRadius: '12px', overflow: 'hidden', border: '1px solid #334155' }}>
+            <iframe width="100%" height="100%" src={"https://www.youtube.com/embed/" + currentProgram.id + "?autoplay=1&mute=0"} frameBorder="0" allowFullScreen></iframe>
+          </div>
         </div>
 
-        {/* Video Player Section */}
-        <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px', fontSize: '1.1rem' }}>Technical Broadcasts</h3>
-        <div style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#000', borderRadius: '12px', overflow: 'hidden', marginBottom: '30px', border: '1px solid #334155' }}>
-          <iframe 
-            width="100%" 
-            height="100%" 
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-            title="ITA-TV Broadcast" 
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen>
-          </iframe>
-        </div>
+        {/* ABOUT US SECTION */}
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px' }}>About IT International Academy</h3>
+          <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
+            We are Zambia's premier digital education platform, focused on delivering <strong>practical</strong> technical training in networking, cybersecurity, and AI. Our mission is to bridge the gap between theory and real-world application.
+          </p>
+        </section>
 
-        <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px', fontSize: '1.1rem' }}>Bursary & Intake Hub</h3>
-        <div style={{ backgroundColor: '#1e293b', padding: '15px', borderRadius: '8px', border: '1px solid #334155', marginBottom: '20px' }}>
-          <h4 style={{ margin: '0 0 5px 0', color: '#38bdf8' }}>ITA Main Intake - Open</h4>
-          <p style={{ margin: 0, fontSize: '0.85rem', color: '#cbd5e1' }}>Direct applications for our technical programs are now being processed.</p>
-        </div>
+        {/* MARKETING GALLERY SECTION */}
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ borderLeft: '4px solid #38bdf8', paddingLeft: '10px' }}>Marketing & Design Showcase</h3>
+          <div style={{ display: 'flex', overflowX: 'auto', gap: '15px', paddingBottom: '10px' }}>
+            <div style={{ minWidth: '200px', height: '250px', backgroundColor: '#1e293b', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #334155' }}>
+              <span style={{ color: '#64748b', fontSize: '0.8rem' }}>Intake Flyer</span>
+            </div>
+            <div style={{ minWidth: '200px', height: '250px', backgroundColor: '#1e293b', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #334155' }}>
+              <span style={{ color: '#64748b', fontSize: '0.8rem' }}>Bursary Poster</span>
+            </div>
+          </div>
+        </section>
 
-        <div style={{ backgroundColor: '#0f172a', padding: '15px', borderRadius: '8px', border: '1px solid #38bdf8', marginBottom: '25px', textAlign: 'center' }}>
-          <p style={{ margin: '0', fontSize: '0.9rem' }}>📞 0779417675 | 0766149405</p>
-        </div>
-
-        <button 
-          onClick={contactWhatsApp}
-          style={{ width: '100%', backgroundColor: '#22c55e', color: 'white', border: 'none', padding: '15px', borderRadius: '8px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}
-        >
+        {/* CTA BUTTON */}
+        <button onClick={() => window.location.href="https://wa.me/260779417675"} style={{ width: '100%', backgroundColor: '#22c55e', color: 'white', border: 'none', padding: '18px', borderRadius: '8px', fontWeight: 'bold', fontSize: '1rem' }}>
           Enquire via WhatsApp
         </button>
       </main>
@@ -60,8 +66,4 @@ const AcademyApp = () => {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <AcademyApp />
-  </React.StrictMode>
-)
+ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><AcademyApp /></React.StrictMode>)
