@@ -25,26 +25,29 @@ const AcademyApp = () => {
       muted: 1,
       modestbranding: 1,
       rel: 0,
-      iv_load_policy: 3,
-      loop: 1,
       playsinline: 1,
-      disablekb: 1,
+      showinfo: 0,
     },
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', background: '#000', overflow: 'hidden' }}>
-      {/* CLICK SHIELD: This kills the red button and protects the logo */}
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
+      {/* THE SHIELD: This hides the YouTube sign and play button */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10, pointerEvents: 'none' }}></div>
       
       {/* STATION HEADER */}
-      <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 20, background: 'rgba(0,0,0,0.6)', color: 'white', textAlign: 'center', padding: '5px' }}>
-        <p style={{ margin: 0, fontWeight: 'bold', fontSize: '14px' }}>{broadcast.title}</p>
+      <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 20, background: 'rgba(0,0,0,0.6)', color: 'white', textAlign: 'center', padding: '10px' }}>
+        <p style={{ margin: 0, fontWeight: 'bold' }}>{broadcast.title}</p>
       </div>
 
       <div style={{ width: "100%", height: "100%" }}>
         {broadcast.videoId && (
-          <YouTube videoId={broadcast.videoId} opts={opts} style={{ width: '100%', height: '100%' }} />
+          <YouTube 
+            videoId={broadcast.videoId} 
+            opts={opts} 
+            style={{ width: '100%', height: '100%' }}
+            onReady={(e) => e.target.playVideo()} 
+          />
         )}
       </div>
     </div>
