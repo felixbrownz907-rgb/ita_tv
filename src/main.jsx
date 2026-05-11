@@ -1,28 +1,13 @@
-
-import React, { useState, useEffect } from 'react'
-import ReactDOM from 'react-dom/client'
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
 import YouTube from 'react-youtube';
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, onSnapshot } from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCMTsYMsXuH55f18tKDL9gSk_h_UjKPjwU",
-  authDomain: "ita-tv-db475.firebaseapp.com",
-  projectId: "ita-tv-db475",
-  storageBucket: "ita-tv-db475.firebasestorage.app",
-  messagingSenderId: "745163337566",
-  appId: "1:745163337566:web:2bb85775e8dcc1ee9ca9cf",
-  measurementId: "G-2DM4BZTSSQ"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { db } from './firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 const AcademyApp = () => {
-  const [broadcast, setBroadcast] = useState({ title: "Connecting to ITA-TV...", videoId: "dQw4w9WgXcQ" });
+  const [broadcast, setBroadcast] = useState({ title: "ITA ACADEMY TV | LIVE", videoId: "" });
 
   useEffect(() => {
-    // This listens for your manual updates in Firebase
     const unsub = onSnapshot(doc(db, "station", "live"), (doc) => {
       if (doc.exists()) {
         setBroadcast(doc.data());
@@ -30,38 +15,36 @@ const AcademyApp = () => {
     });
     return () => unsub();
   }, []);
+
   const opts = {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     playerVars: {
       autoplay: 1,
-     controls 0,
+      controls: 0,
       muted: 1,
       modestbranding: 1,
       rel: 0,
       iv_load_policy: 3,
       loop: 1,
-playsinline: 1,
-          // Hides the play baro
-   
-      disablekb: 1          // No keyboard shortcuts
+      playsinline: 1,
+      disablekb: 1,
     },
   };
 
-   return (
-    <div style={{ position: 'relative', width: '100%
-', height: '100%', background: '#000', overflow: 'hidden' }}
-      {/* CLICK SHIELD: This stops people from clicking the video to go to YouTube */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }}></div>
-  0, width: '100%', height: '100%', zIndex: 10, pointerEvents: "none", zIndex: 10 }}></div>      
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100%', background: '#000', overflow: 'hidden' }}>
+      {/* CLICK SHIELD: This kills the red button and protects the logo */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10, pointerEvents: 'none' }}></div>
+      
       {/* STATION HEADER */}
-      <div style={{ position: 'absolute', top: 0, width: '100%', padding: '12px', background: 'rgba(0,0,0,0.85)', color: 'white', zIndex: 20, textAlign: 'center', borderBottom: '2px solid red' }}>
-        <p style={{ margin: 0, fontWeight: 'bold', fontSize: '1rem' }}>ITA ACADEMY TV | LIVE</p>
+      <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 20, background: 'rgba(0,0,0,0.6)', color: 'white', textAlign: 'center', padding: '5px' }}>
+        <p style={{ margin: 0, fontWeight: 'bold', fontSize: '14px' }}>{broadcast.title}</p>
       </div>
 
-      <div style={{ width: '100%', height: '100%' }}>
+      <div style={{ width: "100%", height: "100%" }}>
         {broadcast.videoId && (
-          <YouTube videoId={broadcast.videoId} opts={opts} style={{ height: '100%', width: '100%' }} />
+          <YouTube videoId={broadcast.videoId} opts={opts} style={{ width: '100%', height: '100%' }} />
         )}
       </div>
     </div>
@@ -73,4 +56,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AcademyApp />
   </React.StrictMode>
 );
-
