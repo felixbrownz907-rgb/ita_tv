@@ -6,29 +6,33 @@
     <title>IT INTERNATIONAL ACADEMY TV</title>
     <style>
         body { margin: 0; padding: 0; background-color: #0b0b0b; color: white; font-family: sans-serif; text-align: center; }
-        .header { padding: 25px; background: #000; border-bottom: 3px solid #ff0000; font-weight: bold; font-size: 1.3rem; letter-spacing: 1px; }
+        .header { padding: 12px; background: #000; border-bottom: 2px solid #ff0000; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .logo-placeholder { height: 35px; width: 35px; background: #222; border: 1px solid #444; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #888; }
+        .header-text { font-weight: bold; font-size: 1rem; letter-spacing: 1px; }
         
-        /* Direct Player Container - No YouTube Branding */
-        .video-container { position: relative; width: 100%; background: #000; display: flex; justify-content: center; }
-        video { width: 100%; max-width: 1000px; height: auto; box-shadow: 0 0 20px rgba(255,0,0,0.2); }
+        .video-container { position: relative; width: 100%; max-width: 900px; margin: 0 auto; background: #000; border-bottom: 1px solid #222; }
+        video { width: 100%; height: auto; display: block; }
 
-        .info-section { padding: 30px 20px; }
-        .station-label { font-size: 1.1rem; color: #ff0000; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+        .info-section { padding: 15px; }
+        .station-label { font-size: 0.8rem; color: #ff0000; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         
-        .whatsapp-btn { display: flex; align-items: center; justify-content: center; margin: 0 auto; background: #25D366; color: white; padding: 20px; width: 90%; max-width: 450px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        .whatsapp-btn { display: inline-flex; align-items: center; justify-content: center; background: #25D366; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
         
-        .footer { margin-top: 40px; padding-bottom: 50px; font-size: 0.9rem; color: #888; }
-        .live-indicator { height: 12px; width: 12px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 10px; animation: blink 1.2s infinite; }
+        .footer { margin-top: 15px; padding-bottom: 30px; font-size: 0.7rem; color: #444; }
+        .live-indicator { height: 6px; width: 6px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 6px; animation: blink 1.2s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-    <div class="header">🎓 IT INTERNATIONAL ACADEMY TV</div>
+    <div class="header">
+        <div class="logo-placeholder">LOGO</div>
+        <div class="header-text">IT INTERNATIONAL ACADEMY TV</div>
+    </div>
 
     <div class="video-container">
-        <!-- DIRECT VIDEO PLAYER: Plays non-stop without YouTube buttons -->
-        <video id="tv-player" autoplay muted loop playsinline controls>
-            <source src="PASTE_YOUR_DIRECT_LINK_HERE" type="video/mp4">
+        <!-- Direct MP4 Player with Full-Screen/Landscape Support -->
+        <video id="tv-player" controls playsinline loop autoplay muted>
+            <source src="PASTE_YOUR_VIDEO_LINK_HERE" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -36,7 +40,7 @@
     <div class="info-section">
         <div class="station-label">📺 MAIN BROADCAST CHANNEL</div>
         <a href="https://wa.me/260766149405" class="whatsapp-btn">
-            <span>💬 WHATSAPP ADMIN: 0766149405</span>
+            <span>💬 WhatsApp Admin</span>
         </a>
     </div>
 
