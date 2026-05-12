@@ -29,7 +29,7 @@
 </div>
 
 <div class="info-bar">
-    <div id="program-display" class="program-title">LOADING PROGRAM...</div>
+    <div id="program-display" class="program-title">LOADING...</div>
     <div class="live-tag">ITA TV LIVE</div>
 </div>
 
@@ -39,16 +39,14 @@
 </div>
 
 <div id="admin-panel">
-    <h3 style="margin-top:0">Broadcasting Desk</h3>
-    <input type="password" id="admin-key" placeholder="Enter Access Key">
+    <input type="password" id="admin-key" placeholder="Access Key">
     <input type="text" id="new-video" placeholder="Direct MP4 URL">
-    <input type="text" id="new-program" placeholder="Program Title (e.g. MEDICINE)">
+    <input type="text" id="new-program" placeholder="Program Title">
     <button onclick="updateStation()">GO LIVE</button>
     <button onclick="closeAdmin()" style="background:#444; margin-top:5px">CLOSE</button>
 </div>
 
 <script>
-    // PASTE YOUR FIREBASE CONFIG HERE
     const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "ita-tv-rgb.firebaseapp.com",
@@ -61,17 +59,15 @@
     
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
     const videoElement = document.getElementById('main-video');
     const titleElement = document.getElementById('program-display');
 
-    // Sync with Database
     db.ref("station").on("value", (snapshot) => {
         const data = snapshot.val();
         if (data) {
             if (videoElement.src !== data.mainVideo) {
                 videoElement.src = data.mainVideo;
-                videoElement.play().catch(e => console.log("Autoplay blocked, waiting for interaction"));
+                videoElement.play().catch(e => console.log("Autoplay check"));
             }
             titleElement.innerText = data.programName || "ON AIR";
         }
@@ -80,10 +76,7 @@
     let clickCount = 0;
     function checkAdminClick() {
         clickCount++;
-        if (clickCount === 3) {
-            document.getElementById('admin-panel').style.display = 'block';
-            clickCount = 0;
-        }
+        if (clickCount === 3) { document.getElementById('admin-panel').style.display = 'block'; clickCount = 0; }
         setTimeout(() => { clickCount = 0; }, 1000);
     }
 
@@ -93,9 +86,8 @@
             const vLink = document.getElementById('new-video').value;
             const pName = document.getElementById('new-program').value;
             db.ref("station").update({ mainVideo: vLink, programName: pName });
-            alert("Live Broadcast Updated!");
             closeAdmin();
-        } else { alert("Access Denied!"); }
+        }
     }
 
     function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
@@ -103,10 +95,15 @@
     function toggleFull() {
         const stage = document.getElementById('main-stage');
         if (!document.fullscreenElement) {
-            stage.requestFullscreen().catch(err => {
-                alert(`Error: ${err.message}`);
-            });
-        } else { document.exitFullscreen(); }
+            stage.requestFullscreen().then(() => {
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(e => console.log(e));
+                }
+            }).catch(err => alert(err.message));
+        } else {
+            document.exitFullscreen();
+            if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); }
+        }
     }
 </script>
 </body>
