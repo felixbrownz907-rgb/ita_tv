@@ -1,4 +1,4 @@
-// Version 2.0 - Permanent Bypass
+// Version 3.0 - Fresh Force Build
 import React, { useEffect, useState, useRef } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
