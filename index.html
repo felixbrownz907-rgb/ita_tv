@@ -2,38 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ITA ACADEMY TV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT INTERNATIONAL ACADEMY TV</title>
     <style>
-        body { margin: 0; background: #111; color: white; font-family: sans-serif; overflow: hidden; }
-        .header { background: #ff0000; padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #333; }
-        #player { width: 100%; height: 230px; background: #000; }
-        .channels { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        button { background: #222; color: white; border: 1px solid #444; padding: 12px; border-radius: 8px; font-size: 11px; text-align: center; }
-        .footer { padding: 20px; text-align: center; color: #25D366; font-size: 14px; border-top: 1px solid #222; }
+        body { margin: 0; padding: 0; background-color: #000; color: white; font-family: sans-serif; text-align: center; }
+        .header { padding: 20px; background: rgba(0, 0, 0, 0.85); border-bottom: 2px solid #f00; font-weight: bold; font-size: 1.2rem; }
+        .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 25px; max-width: 600px; margin: 0 auto; }
+        .btn { background: #1a1a1a; padding: 18px; border-radius: 12px; text-decoration: none; color: white; border: 1px solid #333; font-size: 0.85rem; font-weight: bold; }
+        .whatsapp-link { display: flex; align-items: center; justify-content: center; margin: 20px auto; background: #25D366; color: white; padding: 18px; width: 85%; max-width: 400px; border-radius: 50px; text-decoration: none; font-weight: bold; }
+        .footer { margin-top: 30px; padding-bottom: 40px; font-size: 0.85rem; color: #aaa; }
+        .live-dot { height: 10px; width: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-right: 8px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="header">🎓 IT INTERNATIONAL ACADEMY TV</div>
-    <div id="player"></div>
-    <div class="channels">
-        <button onclick="play('7H0S236O6AA')">📺 LIVE NEWS</button>
-        <button onclick="play('jNQXAC9IVRw')">📚 ACADEMY TV</button>
-        <button onclick="play('7H0S236O6AA')">📈 MARKETING</button>
-        <button onclick="play('jNQXAC9IVRw')">🔥 SUCCESS</button>
+    <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/LIVE_VIDEO_ID?controls=0&autoplay=1&mute=1&rel=0&modestbranding=1" allowfullscreen></iframe>
     </div>
-    <div class="footer">● LIVE | Admin: Felix Chisenga</div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        let player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                videoId: '7H0S236O6AA',
-                playerVars: { 'autoplay': 1, 'controls': 1, 'muted': 1, 'playsinline': 1 }
-            });
-        }
-        function play(id) { player.loadVideoById(id); }
-    </script>
+    <div class="grid">
+        <div class="btn">📺 LIVE NEWS</div>
+        <div class="btn">📚 ACADEMY TV</div>
+        <div class="btn">📈 MARKETING</div>
+        <div class="btn">🔥 SUCCESS</div>
+    </div>
+    <a href="https://wa.me/260766149405" class="whatsapp-link">
+        <span>💬 WHATSAPP ADMIN: 0766149405</span>
+    </a>
+    <div class="footer">
+        <span class="live-dot"></span>
+        <span>LIVE | ADMIN: FELIX CHISENGA</span>
+    </div>
 </body>
 </html>
+
+
