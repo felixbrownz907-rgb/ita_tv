@@ -1,3 +1,4 @@
+cat <<EOF> index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,37 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT INTERNATIONAL ACADEMY TV</title>
     <style>
-        body { margin: 0; padding: 0; background-color: #000; color: white; font-family: sans-serif; text-align: center; }
-        .header { padding: 20px; background: rgba(0, 0, 0, 0.85); border-bottom: 2px solid #f00; font-weight: bold; font-size: 1.2rem; }
-        .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 25px; max-width: 600px; margin: 0 auto; }
-        .btn { background: #1a1a1a; padding: 18px; border-radius: 12px; text-decoration: none; color: white; border: 1px solid #333; font-size: 0.85rem; font-weight: bold; }
-        .whatsapp-link { display: flex; align-items: center; justify-content: center; margin: 20px auto; background: #25D366; color: white; padding: 18px; width: 85%; max-width: 400px; border-radius: 50px; text-decoration: none; font-weight: bold; }
-        .footer { margin-top: 30px; padding-bottom: 40px; font-size: 0.85rem; color: #aaa; }
-        .live-dot { height: 10px; width: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-right: 8px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        body { margin: 0; padding: 0; background-color: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .header { padding: 25px; background: #000; border-bottom: 3px solid #ff0000; font-weight: bold; font-size: 1.3rem; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(255,0,0,0.2); }
+        
+        /* Professional Video Wrapper */
+        .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #1a1a1a; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .info-section { padding: 30px 20px; }
+        .station-label { font-size: 1.1rem; color: #ff0000; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+        
+        /* High-Visibility Contact Button */
+        .whatsapp-btn { display: flex; align-items: center; justify-content: center; margin: 0 auto; background: #25D366; color: white; padding: 20px; width: 90%; max-width: 450px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); transition: 0.3s; }
+        .whatsapp-btn:active { transform: scale(0.98); background: #1ebe57; }
+
+        .footer { margin-top: 40px; padding-bottom: 50px; font-size: 0.9rem; color: #888; }
+        .live-indicator { height: 12px; width: 12px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 10px; animation: blink 1.2s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
+
     <div class="header">🎓 IT INTERNATIONAL ACADEMY TV</div>
-    <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/LIVE_VIDEO_ID?controls=0&autoplay=1&mute=1&rel=0&modestbranding=1" allowfullscreen></iframe>
+
+    <div class="video-container">
+        <!-- Replace YOUR_VIDEO_ID with your actual YouTube Live ID -->
+        <iframe 
+            src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&mute=1&rel=0&modestbranding=1&showinfo=0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+        </iframe>
     </div>
-    <div class="grid">
-        <div class="btn">📺 LIVE NEWS</div>
-        <div class="btn">📚 ACADEMY TV</div>
-        <div class="btn">📈 MARKETING</div>
-        <div class="btn">🔥 SUCCESS</div>
+
+    <div class="info-section">
+        <div class="station-label">📺 Main Broadcast Channel</div>
+        <a href="https://wa.me/260766149405" class="whatsapp-btn">
+            <span>💬 WHATSAPP ADMIN: 0766149405</span>
+        </a>
     </div>
-    <a href="https://wa.me/260766149405" class="whatsapp-link">
-        <span>💬 WHATSAPP ADMIN: 0766149405</span>
-    </a>
+
     <div class="footer">
-        <span class="live-dot"></span>
-        <span>LIVE | ADMIN: FELIX CHISENGA</span>
+        <span class="live-indicator"></span>
+        <span>BROADCASTING LIVE | ADMIN: FELIX CHISENGA</span>
     </div>
+
 </body>
 </html>
-
 
