@@ -1,3 +1,4 @@
+// Version 2.0 - Permanent Bypass
 import React, { useEffect, useState, useRef } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
