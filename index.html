@@ -9,44 +9,38 @@
     <style>
         body { margin: 0; padding: 0; background: #0b0b0b; color: white; font-family: sans-serif; text-align: center; overflow-x: hidden; }
         .header { padding: 12px; background: #000; border-bottom: 2px solid #ff0000; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .logo-box { height: 35px; width: 35px; background: #222; border: 1px solid #444; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #888; }
+        #logo-trigger { height: 40px; width: 40px; background: #222; border: 1px solid #444; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #888; cursor: pointer; }
         .header-text { font-weight: bold; font-size: 1rem; letter-spacing: 1px; }
         .video-container { position: relative; width: 100%; max-width: 900px; margin: 0 auto; background: #000; }
         video { width: 100%; height: auto; display: block; }
-        #ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; display: none; z-index: 1000; }
-        .info { padding: 15px; }
-        .whatsapp-btn { display: inline-flex; align-items: center; background: #25D366; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 0.8rem; margin-top: 10px; }
-        #admin-panel { display: none; position: fixed; top: 50px; left: 5%; width: 90%; background: #1a1a1a; padding: 20px; border: 2px solid #ff0000; z-index: 2000; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
-        input { width: 90%; padding: 10px; margin: 10px 0; background: #333; border: 1px solid #555; color: white; border-radius: 5px; }
-        button { background: #ff0000; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .whatsapp-btn { display: inline-flex; align-items: center; background: #25D366; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 0.8rem; margin-top: 15px; }
+        #admin-panel { display: none; position: fixed; top: 10%; left: 5%; width: 90%; background: #1a1a1a; padding: 20px; border: 2px solid #ff0000; z-index: 2000; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,1); }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #555; color: white; border-radius: 5px; font-size: 16px; }
+        button { background: #ff0000; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; width: 100%; margin-top: 10px; }
     </style>
 </head>
 <body>
-
-    <div id="ad-overlay"><video id="ad-player" playsinline></video></div>
-
     <div class="header">
-        <div class="logo-box">LOGO</div>
+        <div id="logo-trigger" onclick="handleLogoClick()">LOGO</div>
         <div class="header-text">IT INTERNATIONAL ACADEMY TV</div>
     </div>
-
     <div class="video-container">
         <video id="main-player" controls playsinline autoplay muted loop></video>
     </div>
-
-    <div class="info">
-        <div style="color: #ff0000; font-size: 0.8rem; font-weight: bold;">📺 LIVE BROADCAST</div>
-        <a href="https://wa.me/260766149405" class="whatsapp-btn">💬 WhatsApp Admin</a>
-    </div>
-
+    <div class="info"><a href="https://wa.me/260766149405" class="whatsapp-btn">💬 WhatsApp Admin</a></div>
     <div id="admin-panel">
-        <h3>Admin Dashboard</h3>
-        <input type="text" id="new-video" placeholder="New Lesson MP4 Link">
-        <input type="text" id="ad-link" placeholder="8-20s Ad MP4 Link">
-        <button onclick="updateSystem()">Update Station</button>
-        <button onclick="closeAdmin()" style="background:#444; margin-top:10px;">Close</button>
+        <h3 style="color:#ff0000">Admin Login</h3>
+        <div id="login-fields">
+            <input type="text" id="admin-id" placeholder="Admin ID">
+            <input type="password" id="admin-pass" placeholder="Password">
+            <button onclick="checkLogin()">Login</button>
+        </div>
+        <div id="control-fields" style="display:none;">
+            <input type="text" id="new-video" placeholder="New Lesson MP4 Link">
+            <button onclick="updateStation()">Update TV Station</button>
+        </div>
+        <button onclick="closeAdmin()" style="background:#444;">Close</button>
     </div>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCMTsYMsXuH55f18t...",
@@ -56,33 +50,25 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
-        // Listen for changes
-        db.ref('station').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if(data) document.getElementById('main-player').src = data.mainVideo;
+        db.ref('station').on('value', (snap) => {
+            const data = snap.val();
+            if(data && data.mainVideo) document.getElementById('main-player').src = data.mainVideo;
         });
-
-        // Ad Interrupt Logic
-        function playAd(link) {
-            const adOverlay = document.getElementById('ad-overlay');
-            const adPlayer = document.getElementById('ad-player');
-            adPlayer.src = link;
-            adOverlay.style.display = 'block';
-            adPlayer.play();
-            adPlayer.onended = () => { adOverlay.style.display = 'none'; };
+        let clickCount = 0;
+        function handleLogoClick() {
+            clickCount++;
+            if(clickCount === 3) { document.getElementById('admin-panel').style.display = 'block'; clickCount = 0; }
+            setTimeout(() => { clickCount = 0; }, 1000);
         }
-
-        // Secret Login (Type 'admin' in console or we can add a button)
-        window.addEventListener('keydown', (e) => {
-            if(e.key === 'F2') { // Pressing F2 or a secret combination
-                const id = prompt("Admin ID:");
-                const pass = prompt("Password:");
-                if(id === 'admin' && pass === 'admin123') document.getElementById('admin-panel').style.display = 'block';
-            }
-        });
-
-        function updateSystem() {
+        function checkLogin() {
+            const id = document.getElementById('admin-id').value;
+            const pass = document.getElementById('admin-pass').value;
+            if(id === 'admin' && pass === 'admin123') {
+                document.getElementById('login-fields').style.display = 'none';
+                document.getElementById('control-fields').style.display = 'block';
+            } else { alert("Wrong Credentials"); }
+        }
+        function updateStation() {
             const mainV = document.getElementById('new-video').value;
             db.ref('station').update({ mainVideo: mainV });
             alert("Station Updated!");
