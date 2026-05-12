@@ -9,40 +9,41 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
         .header { padding: 10px; background: #000; border-bottom: 2px solid #ff0000; display: flex; align-items: center; justify-content: center; position: relative; }
-        #logo-trigger { position: absolute; left: 10px; height: 35px; width: 35px; background: #222; border-radius: 5px; cursor: pointer; opacity: 0.3; }
+        #logo-trigger { position: absolute; left: 10px; height: 35px; width: 35px; background: #222; border-radius: 5px; cursor: pointer; opacity: 0.1; }
         
-        .video-container { position: relative; width: 100vw; height: calc(100vh - 60px); background: #000; display: flex; align-items: center; justify-content: center; }
-        
-        /* THE LIVE TAGS */
+        .video-container { position: relative; width: 100vw; height: calc(100vh - 60px); background: #000; }
         .program-tag { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.7); color: #fff; padding: 5px 15px; border-left: 4px solid #ff0000; font-size: 12px; font-weight: bold; z-index: 10; text-transform: uppercase; }
         .station-logo { position: absolute; top: 20px; right: 20px; background: rgba(255,0,0,0.8); color: white; padding: 6px 12px; border-radius: 2px; font-size: 14px; font-weight: bold; z-index: 10; }
         
-        /* VIDEO SET TO IGNORE TOUCH (NO PAUSE) */
         video { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
         
-        #admin-panel { display: none; position: fixed; top: 15%; left: 5%; width: 90%; background: #1a1a1a; padding: 20px; border: 2px solid #ff0000; z-index: 2000; border-radius: 10px; }
-        input { width: 90%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #555; color: white; border-radius: 5px; }
+        /* FULLSCREEN TOGGLE (NO PAUSE) */
+        #fs-toggle { position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 12px; border-radius: 4px; font-size: 10px; z-index: 15; cursor: pointer; }
+
+        #admin-panel { display: none; position: fixed; top: 10%; left: 5%; width: 90%; background: #1a1a1a; padding: 20px; border: 2px solid #ff0000; z-index: 2000; border-radius: 10px; }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #555; color: white; border-radius: 5px; font-size: 16px; }
         button { background: #ff0000; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; width: 100%; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="header">
         <div id="logo-trigger" onclick="handleLogoClick()"></div>
-        <div style="font-weight:bold; letter-spacing:1px;">IT INTERNATIONAL ACADEMY TV</div>
+        <div style="font-weight:bold;">IT INTERNATIONAL ACADEMY TV</div>
     </div>
 
-    <div class="video-container">
+    <div class="video-container" id="main-stage">
         <div class="program-tag" id="display-program">ON AIR</div>
         <div class="station-logo">ITA TV LIVE</div>
-        <!-- Removed 'controls', added 'autoplay', 'muted', and 'loop' -->
         <video id="main-player" autoplay muted loop playsinline></video>
+        <div id="fs-toggle" onclick="toggleFull()">FULLSCREEN</div>
     </div>
 
     <div id="admin-panel">
         <h3 style="color:#ff0000; margin:0 0 10px 0;">Broadcasting Control</h3>
-        <input type="text" id="new-video" placeholder="Direct Video URL">
-        <input type="text" id="new-program" placeholder="Program Title (e.g. CCNA Module 1)">
-        <button onclick="updateStation()">Update Live Feed</button>
+        <input type="password" id="admin-key" placeholder="Enter Access Key">
+        <input type="text" id="new-video" placeholder="Direct MP4 URL">
+        <input type="text" id="new-program" placeholder="Program Title">
+        <button onclick="updateStation()">Go Live</button>
         <button onclick="closeAdmin()" style="background:#444;">Close Desk</button>
     </div>
 
@@ -62,7 +63,7 @@
                 const player = document.getElementById('main-player');
                 if(data.mainVideo && player.src !== data.mainVideo) {
                     player.src = data.mainVideo;
-                    player.play().catch(e => console.log("Autoplay blocked, waiting for interaction"));
+                    player.play();
                 }
                 if(data.programName) document.getElementById('display-program').innerText = data.programName;
             }
@@ -76,12 +77,27 @@
         }
 
         function updateStation() {
-            const vLink = document.getElementById('new-video').value;
-            const pName = document.getElementById('new-program').value;
-            db.ref('station').update({ mainVideo: vLink, programName: pName });
-            alert("Live Feed Updated!");
+            const key = document.getElementById('admin-key').value;
+            if(key === "2024") { // Your private access key
+                const vLink = document.getElementById('new-video').value;
+                const pName = document.getElementById('new-program').value;
+                db.ref('station').update({ mainVideo: vLink, programName: pName });
+                alert("Live Broadcast Updated!");
+            } else {
+                alert("Access Denied!");
+            }
         }
+
         function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
+        
+        function toggleFull() {
+            const stage = document.getElementById('main-stage');
+            if (!document.fullscreenElement) {
+                stage.requestFullscreen().catch(err => alert());
+            } else {
+                document.exitFullscreen();
+            }
+        }
     </script>
 </body>
 </html>
