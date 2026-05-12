@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ITA ACADEMY TV</title>
+    <style>
+        body { margin: 0; background: #111; color: white; font-family: sans-serif; overflow: hidden; }
+        .header { background: #ff0000; padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #333; }
+        #player { width: 100%; height: 230px; background: #000; }
+        .channels { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { background: #222; color: white; border: 1px solid #444; padding: 12px; border-radius: 8px; font-size: 11px; text-align: center; }
+        .footer { padding: 20px; text-align: center; color: #25D366; font-size: 14px; border-top: 1px solid #222; }
+    </style>
+</head>
+<body>
+    <div class="header">🎓 IT INTERNATIONAL ACADEMY TV</div>
+    <div id="player"></div>
+    <div class="channels">
+        <button onclick="play('7H0S236O6AA')">📺 LIVE NEWS</button>
+        <button onclick="play('jNQXAC9IVRw')">📚 ACADEMY TV</button>
+        <button onclick="play('7H0S236O6AA')">📈 MARKETING</button>
+        <button onclick="play('jNQXAC9IVRw')">🔥 SUCCESS</button>
+    </div>
+    <div class="footer">● LIVE | Admin: Felix Chisenga</div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '7H0S236O6AA',
+                playerVars: { 'autoplay': 1, 'controls': 1, 'muted': 1, 'playsinline': 1 }
+            });
+        }
+        function play(id) { player.loadVideoById(id); }
+    </script>
+</body>
+</html>
